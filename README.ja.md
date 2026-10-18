@@ -54,7 +54,7 @@
 
 2 通りあります。
 
-- **`.deb`**：`sudo apt install ./cb-pitch-shift-*.deb`。`/usr` にインストールされます。公式 OBS PPA（`ppa:obsproject/obs-studio`）やディストリのパッケージの OBS はここにあります。OBS がプラグインを認識しない場合、OBS が別のプレフィックス（`/usr/local` に置いたビルドや Flatpak/Snap のサンドボックスなど）に入っている可能性が高いです。下記を参照してください。
+- **`.deb`**：`sudo apt install ./cb-pitch-shift-*.deb`。お使いのリリースに合ったファイルを選んでください。`…-x86_64-linux-gnu.deb` は Ubuntu 24.04 でビルドしたもの、`…-x86_64-ubuntu-26.04.deb` は Ubuntu 26.04 でビルドしたものです（26.04 では Qt6 のパッケージ名が変わったため、24.04 用のファイルはインストールできません）。`/usr` にインストールされます。公式 OBS PPA（`ppa:obsproject/obs-studio`）やディストリのパッケージの OBS はここにあります。OBS がプラグインを認識しない場合、OBS が別のプレフィックス（`/usr/local` に置いたビルドや Flatpak/Snap のサンドボックスなど）に入っている可能性が高いです。下記を参照してください。
 - **ユーザーディレクトリへの配置**：サンドボックスでない OBS ならどれでも動き、`sudo` も不要で、OBS を更新しても消えません。tarball を展開（または `.deb` のファイルをコピー）して `~/.config/obs-studio/plugins/cb-pitch-shift/` に次の構成で置きます。
 
   ```

@@ -249,6 +249,70 @@ jobs:
           path: ${{ github.workspace }}/.ccache
           key: ${{ runner.os }}-${{ matrix.os }}-ccache-x86_64-${{ needs.check-event.outputs.config }}
 
+  # Ubuntu 26.04 renamed the Qt6 runtime packages (libqt6gui6t64 -> libqt6gui6), so a .deb built on
+  # 24.04 depends on package names that do not exist there. Build in a 26.04 container instead.
+  ubuntu-26-build:
+    name: Build for Ubuntu 26.04 🐧
+    runs-on: ubuntu-24.04
+    container: ubuntu:26.04
+    needs: check-event
+    env:
+      DEBIAN_FRONTEND: noninteractive
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Install Base Tools 🛍️
+        run: |
+          : Install Base Tools 🛍️
+          apt-get update -qq
+          apt-get install -y --no-install-recommends \
+            ca-certificates curl git gpg jq software-properties-common sudo zsh
+
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Set Up Environment 🔧
+        id: setup
+        run: |
+          : Set Up Environment 🔧
+          read -r product_name product_version <<< \
+            "$(jq -r '. | {name, version} | join(" ")' buildspec.json)"
+
+          echo "pluginName=${product_name}" >> $GITHUB_OUTPUT
+          echo "pluginVersion=${product_version}" >> $GITHUB_OUTPUT
+
+      - name: Build Plugin 🧱
+        run: |
+          : Build Plugin 🧱
+          .github/scripts/build-ubuntu --target ubuntu-x86_64 --config ${{ needs.check-event.outputs.config }}
+
+      - name: Package Plugin 📀
+        run: |
+          : Package Plugin 📀
+          package_args=(--target ubuntu-x86_64 --config ${{ needs.check-event.outputs.config }})
+          if [[ '${{ needs.check-event.outputs.package }}' == 'true' ]]; then package_args+=(--package); fi
+
+          .github/scripts/package-ubuntu "${package_args[@]}"
+
+      - name: Mark Package As 26.04 🏷️
+        if: ${{ fromJSON(needs.check-event.outputs.package) }}
+        run: |
+          : Mark Package As 26.04 🏷️
+          # Same file name as the 24.04 build otherwise, which would collide in the release assets
+          for file in release/*-x86_64-linux-gnu*.@(deb|ddeb); do
+            mv "${file}" "${file/-linux-gnu/-ubuntu-26.04}"
+          done
+        shell: bash -O extglob -O nullglob {0}
+
+      - name: Upload Artifacts 📡
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.setup.outputs.pluginName }}-${{ steps.setup.outputs.pluginVersion }}-ubuntu-26.04-x86_64-${{ needs.check-event.outputs.commitHash }}
+          path: ${{ github.workspace }}/release/${{ steps.setup.outputs.pluginName }}-${{ steps.setup.outputs.pluginVersion }}-x86_64*.*
+
   windows-build:
     name: Build for Windows 🪟
     runs-on: windows-2022

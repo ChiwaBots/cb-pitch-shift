@@ -54,7 +54,7 @@
 
 兩種方式：
 
-- **`.deb`**：`sudo apt install ./cb-pitch-shift-*.deb`。會裝到 `/usr`，也就是官方 OBS PPA（`ppa:obsproject/obs-studio`）或你發行版套件的 OBS 所在的位置。如果 OBS 沒抓到插件，多半是你的 OBS 裝在別的前綴（例如下載的 build 裝在 `/usr/local`，或是 Flatpak/Snap 沙盒），見下方說明。
+- **`.deb`**：`sudo apt install ./cb-pitch-shift-*.deb`。請選對應你系統版本的檔案：`…-x86_64-linux-gnu.deb` 是在 Ubuntu 24.04 建置的，`…-x86_64-ubuntu-26.04.deb` 是在 Ubuntu 26.04 建置的（26.04 改了 Qt6 的套件名稱，24.04 的檔案在 26.04 上無法安裝）。會裝到 `/usr`，也就是官方 OBS PPA（`ppa:obsproject/obs-studio`）或你發行版套件的 OBS 所在的位置。如果 OBS 沒抓到插件，多半是你的 OBS 裝在別的前綴（例如下載的 build 裝在 `/usr/local`，或是 Flatpak/Snap 沙盒），見下方說明。
 - **使用者目錄安裝**：適用任何非沙盒的 OBS，不需要 `sudo`，OBS 升級也不會被清掉。把 tarball 解壓（或把 `.deb` 裡的檔案複製出來）到 `~/.config/obs-studio/plugins/cb-pitch-shift/`，結構如下：
 
   ```

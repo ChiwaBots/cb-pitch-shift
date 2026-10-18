@@ -54,7 +54,7 @@ The installer puts `cb-pitch-shift.plugin` in `~/Library/Application Support/obs
 
 Two options:
 
-- **`.deb`**: `sudo apt install ./cb-pitch-shift-*.deb`. This installs into `/usr`, which is where OBS from the official PPA (`ppa:obsproject/obs-studio`) or your distribution's package lives. If OBS does not pick the plugin up, your OBS is probably installed under a different prefix (for example a downloaded build under `/usr/local`, or a Flatpak/Snap sandbox). See below.
+- **`.deb`**: `sudo apt install ./cb-pitch-shift-*.deb`. Pick the file that matches your release: `…-x86_64-linux-gnu.deb` is built on Ubuntu 24.04, and `…-x86_64-ubuntu-26.04.deb` is built on Ubuntu 26.04 (Ubuntu 26.04 renamed the Qt6 packages, so the 24.04 file cannot be installed there). This installs into `/usr`, which is where OBS from the official PPA (`ppa:obsproject/obs-studio`) or your distribution's package lives. If OBS does not pick the plugin up, your OBS is probably installed under a different prefix (for example a downloaded build under `/usr/local`, or a Flatpak/Snap sandbox). See below.
 - **Per-user install**: works with any non-sandboxed OBS, needs no `sudo`, and survives OBS updates. Extract the tarball (or copy the files out of the `.deb`) into `~/.config/obs-studio/plugins/cb-pitch-shift/` so that you end up with:
 
   ```
