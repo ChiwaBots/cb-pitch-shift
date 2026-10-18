@@ -267,7 +267,7 @@ jobs:
           : Install Base Tools 🛍️
           apt-get update -qq
           apt-get install -y --no-install-recommends \
-            ca-certificates curl git gpg jq software-properties-common sudo zsh
+            ca-certificates curl dpkg-dev file git gpg jq software-properties-common sudo zsh
 
       - uses: actions/checkout@v4
         with:
